@@ -207,12 +207,13 @@ int WiFiUDP::parsePacket(){
     return 0;
   struct sockaddr_in si_other;
   int slen = sizeof(si_other) , len;
-  char * buf = new char[1460];
-  if(!buf){
-    return 0;
-  }
+  char buf[1460] = {0};
+  // char * buf = new char[1460];
+  // if(!buf){
+  //   return 0;
+  // }
   if ((len = recvfrom(udp_server, buf, 1460, MSG_DONTWAIT, (struct sockaddr *) &si_other, (socklen_t *)&slen)) == -1){
-    delete[] buf;
+    // delete[] buf;
     if(errno == EWOULDBLOCK){
       return 0;
     }
@@ -225,7 +226,7 @@ int WiFiUDP::parsePacket(){
     rx_buffer = new cbuf(len);
     rx_buffer->write(buf, len);
   }
-  delete[] buf;
+  // delete[] buf;
   return len;
 }
 
